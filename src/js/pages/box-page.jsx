@@ -1,15 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {Row, Input, Button, Icon} from 'react-materialize';
 //import {bindActionCreators} from 'redux';
-import defaultImage from '../../media/images/png/Default-1.png';
 import $ from 'jquery';
-
-import "react-select/dist/react-select.css";
-import "react-virtualized-select/styles.css";
-import Select from "react-virtualized-select";
+import 'react-select/dist/react-select.css';
 
 const mapStateToProps = (state, props) => {
     return {
@@ -23,13 +17,13 @@ const mapDispatchToProps = (dispatch, props) => {
     };
     return actions;
 }
-// Dummy array of test values.
-const options = Array.from(new Array(1000), (_, index) => ({
-    label: `Item ${index}`,
-    value: index
-  }));
+
+
 
 class BoxPage extends React.Component {
+    logChange = (val) => {
+        console.log("Selected: " + val);
+    }
     componentDidMount(){
         $('.datepicker').pickadate({
             monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
@@ -52,188 +46,660 @@ class BoxPage extends React.Component {
         let today = `${day}-${month}-${year}` ;
         $('#date').val(today);
     }
-    state = {
-        selectedOption: '',
-    }
-    handleChange = (selectedOption) => {
-        this.setState({ selectedOption });
-        // selectedOption can be null when the `x` (close) button is clicked
-        if (selectedOption) {
-          console.log(`Selected: ${selectedOption.label}`);
-        }
-    }
+
     render(){
-        const { selectedOption } = this.state;
+        const options = [
+            { label: "One", value: 1 },
+            { label: "Two", value: 2 },
+            { label: "Three", value: 3}
+        ]
         return (
             <div className='container'>
                 <br/>
                 <div>
                     <form method='post' ref={this.setForm}  action='#' onSubmit={this.handleSubmit}>
                         <div>
+                            {/* 
+                                Main
+                            */}
                             <Row>
-                                <div className='col s12 l12'>
-                                    <h6 className='col s12 l12 center-left uppercase font-weight-bolder'> 
-                                        Introducción de embarque:
-                                    </h6>
-                                </div>
-                                <div className='col s12 m4 l4'>
-                                    <Input s={12} l={12} label='Operador Logistico'/>
-                                    <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                    
-                                    </p>
-                                </div>
-                                
-                                <div className='col s12 m4 l4'>
-                                    <Input s={12} l={12} label='Ingreso Terminal'/>
-                                    <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                    
-                                    </p>
-                                </div>
-                                <div className='col s12 m4 l4'>
-                                    <div className='col input-field s12 l12'>
-                                        <input 
-                                            className='datepicker validate' 
-                                            label='Fecha' 
-                                            id='date' 
-                                            disabled
-                                            type='date'/>
-                                        <label htmlFor='date'>Fecha</label>
-                                    </div>
-                                    <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                    </p>
-                                </div>
-                                <div className='col s12 l12'>
-                                    <Input s={12} l={12} label='Contacto'/>
-                                    <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                    </p>
-                                </div>
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 m6 l6'>
+                                        <Input s={12} l={12} type='select' label='Persona Encargada'>
+                                            <option> Persona Encargada 1 </option>
+                                            <option> Persona Encargada 2 </option>
+                                            <option> Persona Encargada 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l6'>
+                                        <Input s={12} l={12} type='text' label='Número PackingList'/>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div> 
+                                </div> 
                             </Row>
                             <Row>
-                                <div className='col s12 l6'>
-                                    <Input s={12} l={12} label='Naviera'/>
-                                    <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                    
-                                    </p>
-                                </div>
-                                <div className='col s12 l6'>
-                                    <Input s={12} l={12} label='Booking N°'/>
-                                    <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 m4 l4'>
+                                        <Input s={12} l={12} type='select' label='Operador Logistico'>
+                                            <option> Operador 1 </option>
+                                            <option> Operador 2 </option>
+                                            <option> Operador 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m4 l4'>
+                                        <Input s={12} l={12} type='select' label='Ingreso a Terminal'>
+                                            <option> Terminal 1 </option>
+                                            <option> Terminal 2 </option>
+                                            <option> Terminal 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m4 l4'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker validate' 
+                                                label='Fecha' 
+                                                id='date' 
+                                                disabled
+                                                type='date'/>
+                                            <label htmlFor='date'>Fecha</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
 
-                                    </p>
+                                        </p>
+                                    </div>
+                                    <div className='col s12 l8'>
+                                        <Input s={12} l={12} label='Contacto'/>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                    <div className='col s6 l2'>
+                                        <Input s={12} l={12} type='select' label='Naviera'>
+                                            <option> Naviera 1 </option>
+                                            <option> Naviera 2 </option>
+                                            <option> Naviera 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s6 l2'>
+                                        <Input s={12} l={12} label='Booking N°'/>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
                                 </div>
                             </Row>
+                            
                             <Row>
-                                <div className='row'>
-                                    <div className='col s12 m6 l6'> 
-                                        <div className='col s12 l12'>
-                                            <h6 className='col s12 l12 center-left uppercase font-weight-bolder'> 
-                                                Datos del Embarcador:
-                                            </h6>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Select className='input-field col s12 l12' options={options} />
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                            
-                                            </p>
-                                        </div>
+                                {/* 
+                                    Datos del Embarcador
+                                */}
+                                <div className='col s12 m6 l6'> 
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Datos del Embarcador:
+                                        </h6>
                                     </div>
-                                    <div className="col s12 m6 l6">
-                                        <div className='col s12 l12'>
-                                            <h6 className='col s12 l12 center-left uppercase font-weight-bolder'> 
-                                                Datos del Broker/Cliente:
-                                            </h6>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Nombre'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                            
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Row>
-                            <Row>
-                                <div className='row'>
-                                    <div className='col s12 m6 l6'> 
-                                        <div className='col s12 l12'>
-                                            <h6 className='col s12 l12 center-left uppercase font-weight-bolder'> 
-                                                Datos del consignatario:
-                                            </h6>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Nombre'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                            
-                                            </p>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Dirección'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
-                                        </div>
-                                        <div className='col s6 m6 l6'>
-                                            <Input s={12} l={12} label='Teléfono'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                            
-                                            </p>
-                                        </div>
-                                        <div className='col s6 m6 l6'>
-                                            <Input s={12} l={12} label='Fax'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Correo electrónico'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col s12 m6 l6">
-                                        <div className='col s12 l12'>
-                                            <h6 className='col s12 l12 center-left uppercase font-weight-bolder'> 
-                                                Datos del notificante:
-                                            </h6>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Nombre'/>
-                                                <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                                
-                                                </p>
+                                    <div className='col s12 l12'>
+                                        <Input s={12} l={12} type='select' label='Embarcador'>
+                                            <option> Embarcador 1 </option>
+                                            <option> Embarcador 2 </option>
+                                            <option> Embarcador 3 </option>
+                                        </Input>
+                                        <div className='card col s12 m12 l12'>
+                                           <div className='card-content black-text'>
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p className='fot'> Empresa </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> OAG GLOBAL INC </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Dirección </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> 7110 N.FRESNO AT...</p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Teléfono </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5300 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Fax </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5307 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> E-Mail </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> docs@jkfresh.com </p>
+                                                    </li> 
+                                                </ul>  
                                             </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Dirección'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
                                         </div>
-                                        <div className='col s6 m6 l6'>
-                                            <Input s={12} l={12} label='Teléfono'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-                                            
-                                            </p>
-                                        </div>
-                                        <div className='col s6 m6 l6'>
-                                            <Input s={12} l={12} label='Fax'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
-                                        </div>
-                                        <div className='col s12 l12'>
-                                            <Input s={12} l={12} label='Correo electrónico'/>
-                                            <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                            </p>
-                                        </div>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
                                     </div>
+                                </div>
+                                {/* 
+                                    Datos del Broker/Cliente
+                                */}
+                                <div className="col s12 m6 l6">
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Datos del Broker/Cliente:
+                                        </h6>
+                                    </div>
+                                    <div className='col s12 l12'>
+                                        <Input s={12} l={12} type='select' label='Broker/Cliente'>
+                                            <option> Broker/Cliente 1 </option>
+                                            <option> Broker/Cliente 2 </option>
+                                            <option> Broker/Cliente 3 </option>
+                                        </Input>
+                                        <div className='card col s12 m12 l12'>
+                                           <div className='card-content black-text'>
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p className='fot'> Empresa </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> OAG GLOBAL INC </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Dirección </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> 7110 N.FRESNO AT...</p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Teléfono </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5300 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Fax </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5307 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> E-Mail </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> docs@jkfresh.com </p>
+                                                    </li> 
+                                                </ul>  
+                                            </div>
+                                        </div>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                {/* 
+                                    Datos del consignatario
+                                */}
+                                <div className='col s12 m6 l6'> 
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Datos del consignatario:
+                                        </h6>
+                                    </div>
+                                    <div className='col s12 l12'>
+                                        <Input s={12} l={12} type='select' label='Consignatario'>
+                                            <option> Consignatario 1 </option>
+                                            <option> Consignatario 2 </option>
+                                            <option> Consignatario 3 </option>
+                                        </Input>
+                                        <div className='card col s12 m12 l12'>
+                                           <div className='card-content black-text'>
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p className='fot'> Empresa </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> OAG GLOBAL INC </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Dirección </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> 7110 N.FRESNO AT...</p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Teléfono </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5300 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Fax </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5307 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> E-Mail </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> docs@jkfresh.com </p>
+                                                    </li> 
+                                                </ul>  
+                                            </div>
+                                        </div>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                </div>
+                                {/* 
+                                    Datos del notificante
+                                */}
+                                <div className="col s12 m6 l6">
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Datos del notificante:
+                                        </h6>
+                                    </div>
+                                    <div className='col s12 l12'>
+                                        <Input s={12} l={12} type='select' label='Notificante'>
+                                            <option> Notificante 1 </option>
+                                            <option> Notificante 2 </option>
+                                            <option> Notificante 3 </option>
+                                        </Input>
+                                        <div className='card col s12 m12 l12'>
+                                           <div className='card-content black-text'>
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p className='fot'> Empresa </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> OAG GLOBAL INC </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Dirección </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> 7110 N.FRESNO AT...</p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Teléfono </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5300 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> Fax </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> (511) 201-5307 </p>
+                                                    </li> 
+                                                </ul>  
+                                                <ul className='row'>
+                                                    <li className='col m2 l3'>
+                                                        <p> E-Mail </p>
+                                                    </li> 
+                                                    <li className='col m1 l1'>:</li> 
+                                                    <li className='col m9 l8'>
+                                                        <p className='left-align'> docs@jkfresh.com </p>
+                                                    </li> 
+                                                </ul>  
+                                            </div>
+                                        </div>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                {/* 
+                                    Aduana Peruana
+                                */}
+                                <div className='col s12 m12 l12'> 
+                                    <h6 className='col s12 l12 center-align uppercase font-weight-bolder'>Aduana Peruana</h6>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className='col s12 m6 l6'> 
+                                    <div className='col s12 m12 l12'>
+                                        <label className='col input-field s12 l12'> Consignee to order: </label>
+                                    </div>
+                                    <div className='col s6 m6 l6'>
+                                        <Input s={12} l={12} label='Nave y Viaje'/>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s6 m6 l6'>
+                                        <Input s={12} l={12} type='select' label='Condición Flete'>
+                                            <option> Condición Flete 1 </option>
+                                            <option> Condición Flete 2 </option>
+                                            <option> Condición Flete 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m12 l6'>
+                                        <Input s={12} l={12} type='select' label='Regimém'>
+                                            <option> Regimém 1 </option>
+                                            <option> Regimém 2 </option>
+                                            <option> Regimém 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m12 l6'>
+                                        <Input s={12} l={12} type='select' label='Partida Arancelaria'>
+                                            <option> Partida Arancelaria 1 </option>
+                                            <option> Partida Arancelaria 2 </option>
+                                            <option> Partida Arancelaria 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='col s12 m6 l6'> 
+                                    <div className='col s12 m12 l12'>
+                                        <label className='col input-field s12 l12'> Consignee to order: </label>
+                                    </div>
+                                    <div className='col s12 l6'>
+                                        <Input s={12} l={12} type='select' label='Puerto Embarque'>
+                                            <option> Puerto Embarque 1 </option>
+                                            <option> Puerto Embarque 2 </option>
+                                            <option> Puerto Embarque 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s12 l6'>
+                                        <Input s={12} l={12} type='select' label='Puerto Destino'>
+                                            <option> Puerto Destino 1 </option>
+                                            <option> Puerto Destino 2 </option>
+                                            <option> Puerto Destino 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m6 l6'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker validate' 
+                                                type='date'/>
+                                            <label htmlFor='date'>E.T.D Pisco</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m6 l6'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker input-field s12 l12 validate' 
+                                                type='date'/>
+                                            <label htmlFor='date'>E.T.A Destino</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m12 l12'>
+                                        <Input s={12} l={12} name='group1' type='checkbox' value='true' label='Certificados Fitosanitarias/Origen' />
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className="col s12 m12 l12">
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                           INGRESAR CARGA: 
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 m6 l3'>
+                                        <Input s={12} l={12} type='select' label='Producto'>
+                                            <option> Producto 1 </option>
+                                            <option> Producto 2 </option>
+                                            <option> Producto 3 </option>
+                                        </Input>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l3'>
+                                        <Input s={12} l={12} type='select' label='Marca'>
+                                            <option> Marca 1 </option>
+                                            <option> Marca 2 </option>
+                                            <option> Marca 3 </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m6 l2'>
+                                        <Input s={12} l={12} type='select' label='Tipo de Caja'>
+                                            <option> Tipo de Caja 1 </option>
+                                            <option> Tipo de Caja 2 </option>
+                                            <option> Tipo de Caja 3 </option>
+                                        </Input>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l2'>
+                                        <Input s={12} l={12} type='number' label='N° de Caja(s)'/>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l2'>
+                                        <label htmlFor='add-item' className='center-align'>.:  Click para agregar item  :.</label>
+                                        <Button s={12} l={12} waves='light' id='add-item' >Agregar <Icon right>send</Icon></Button>
+                                        
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                </div>
+                            </Row>
+                            {/* 
+                                DESCRIPCIÓN DE LA CARGA
+                            */}
+                            <Row>
+                                <div className='col s12 l12'>
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            DESCRIPCIÓN DE LA CARGA
+                                        </h6>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className='col s12 m12 l12'> 
+                                    <div className=''>
+                                        <table className='responsive-table highlight centered'>
+                                            <thead>
+                                                <tr>
+                                                    <th>VARIEDAD</th>
+                                                    <th>PESO CAJA (KG)</th>
+                                                    <th>TIPO DE CAJA</th>
+                                                    <th>CANTIDAD DE CAJA(S)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>FLAME</td>
+                                                    <td>8.20</td>
+                                                    <td>CAJAS DE CARTON</td>
+                                                    <td>1.800</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>FLAME</td>
+                                                    <td>8.20</td>
+                                                    <td>CAJAS DE CARTON</td>
+                                                    <td>1.800</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td className='font-weight-bolder'>TOTAL</td>
+                                                    <td className='border-gray-1 font-weight-bolder'>3.600</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className="col s12 m12 l12">
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                           PLANTA Y DIRECCIÓN DE LLENADO
+                                        </h6>
+                                    </div>
+                                    <div className='col s12 l6'>
+                                        <Input s={12} l={12} type='select' label='Fundo(s)'>
+                                            <option> one </option>
+                                            <option> two </option>
+                                            <option> three </option>
+                                        </Input>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </Row> 
+                            <Row>
+                                <div className="col s12 m12 l12">
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                           FECHA DE DESPACHO
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 m6 l3'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker validate' 
+                                                type='date'/>
+                                            <label htmlFor='date'>Ingreso a Planta</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l3'>
+                                        <Input s={12} l={12} type='time' label='Hora de llenado'/>
+                                        <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+                                        
+                                        </p>
+                                    </div>
+                                    <div className='col s12 m6 l3'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker validate' 
+                                                type='date'/>
+                                            <label htmlFor='date'>Salidad Ica</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
+                                    <div className='col s12 m6 l3'>
+                                        <div className='col input-field s12 l12'>
+                                            <input 
+                                                className='datepicker validate' 
+                                                type='date'/>
+                                            <label htmlFor='date'>Ingreso al Terminal</label>
+                                        </div>
+                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
+
+                                        </p>
+                                    </div> 
                                 </div>
                             </Row>
                         </div>
-   
                     </form>    
                 </div>
             </div>

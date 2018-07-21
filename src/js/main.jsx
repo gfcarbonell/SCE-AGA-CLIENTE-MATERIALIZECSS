@@ -48,14 +48,15 @@ class Main extends React.Component {
                 <Header header={header} style={style.header}/>
                 <NavBar style={style.navBar}>
                     <NavBarItem to={'/'}>Página Principal</NavBarItem>
-                    <NavBarItem to={'/boxes'}>Página Principal</NavBarItem>
+                    <NavBarItem to={'/boxes'}>Instrucción de Embarque</NavBarItem>
                     <NavBarItem to={'/login'}>Login</NavBarItem>
                 </NavBar>
                 <section>
                     <main>
                         <Switch >
-                            <Route exact path='/' component={BoxPage} />
-                            <Route path='/login' component={()=><li> Hola </li>} />
+                            <Route exact path='/' component={()=><li> Principal </li>} />
+                            <Route path='/boxes' component={BoxPage} />
+                            <Route path='/login' component={()=><li> Login </li>} />
                         </Switch>
                     </main>
                 </section>  
