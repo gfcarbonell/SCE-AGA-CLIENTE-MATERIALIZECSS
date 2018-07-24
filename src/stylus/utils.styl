@@ -4,6 +4,8 @@
     background rgba(black, .3)
 .border-gray-1
     border 1px solid gray
+.border-gray-right-1
+    border-right 1px solid gray
 .border-white-1
     border 1px solid white
 .border-white-2
@@ -48,6 +50,8 @@
     margin 0 auto
 .padding-simple
     padding .5em 
+.padding-simple-bottom
+    padding-bottom:  .5em 
 .padding-1
     padding 1em
 .padding-2
@@ -129,7 +133,15 @@
     justify-content center 
     align-items center
 }
-
+.d-flex{
+    display flex
+}
+.justify-content-flex-end{
+    justify-content: flex-end
+}
+.justify-content-center{
+    justify-content: center
+}
 .tabs{
     background transparent
 }
@@ -145,6 +157,10 @@
 }
 .tabs .indicator {
 	background-color:#7cb342;
+}
+//React Slider 
+.rangeslider-horizontal .rangeslider__fill{
+    background: #26a69a //Default Materialize
 }
 @media (min-width: 576px)
     .title 

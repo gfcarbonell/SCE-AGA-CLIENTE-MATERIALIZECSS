@@ -1,7 +1,8 @@
 import React from 'react';
 import {withRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+//import {bindActionCreators} from 'redux';
+
 
 //Main Components 
 import Header from './components/header/containers/header';
@@ -11,6 +12,7 @@ import NavBarItem from './components/nav-bar/items/nav-bar-item';
 //Logo Entity
 import logo from '../media/images/png/AGA.png'; 
 import BoxPage from './pages/box-page';
+import SCE from './pages/pdfs/sce';
 
 const header = {
     logo:{
@@ -54,7 +56,7 @@ class Main extends React.Component {
                 <section>
                     <main>
                         <Switch >
-                            <Route exact path='/' component={()=><li> Principal </li>} />
+                            <Route exact path='/' component={()=><SCE/>} />
                             <Route path='/boxes' component={BoxPage} />
                             <Route path='/login' component={()=><li> Login </li>} />
                         </Switch>

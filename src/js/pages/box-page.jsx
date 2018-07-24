@@ -1,19 +1,24 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Input, Button, Icon} from 'react-materialize';
-//import {bindActionCreators} from 'redux';
+import {bindActionCreators} from 'redux';
 import $ from 'jquery';
-import 'react-select/dist/react-select.css';
+import Slider from 'react-rangeslider'
+import 'react-rangeslider/lib/index.css'
+
+//Actions 
+import {getSCEManagers} from '../actions/sce-manager';
+
 
 const mapStateToProps = (state, props) => {
     return {
-
+        SCEManagerData:state.SCEManagerReducer,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     const actions = {
-
+        getSCEManagers:bindActionCreators(getSCEManagers, dispatch)
     };
     return actions;
 }
@@ -21,9 +26,12 @@ const mapDispatchToProps = (dispatch, props) => {
 
 
 class BoxPage extends React.Component {
-    logChange = (val) => {
-        console.log("Selected: " + val);
+
+    componentWillMount(){
+        this.props.getSCEManagers();
+
     }
+
     componentDidMount(){
         $('.datepicker').pickadate({
             monthsFull: [ 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre' ],
@@ -47,14 +55,26 @@ class BoxPage extends React.Component {
         $('#date').val(today);
     }
 
+    state = {
+        celsius: 0
+    }
+
+    handleOnChange = (value) => {
+        this.setState({
+            celsius: value
+        })
+    }
     render(){
-        const options = [
-            { label: "One", value: 1 },
-            { label: "Two", value: 2 },
-            { label: "Three", value: 3}
-        ]
+        let { celsius } = this.state
+        const horizontalLabels = {
+            '-10': 'Bajo',
+            '0': 'Medio',
+            '10': 'Alto'
+        }
+        const formatCelsius = value => value + ' C°'
         return (
             <div className='container'>
+                
                 <br/>
                 <div>
                     <form method='post' ref={this.setForm}  action='#' onSubmit={this.handleSubmit}>
@@ -64,7 +84,7 @@ class BoxPage extends React.Component {
                             */}
                             <Row>
                                 <div className='col s12 m12 l12'>
-                                    <div className='col s12 m6 l6'>
+                                    <div className='col s12 m8 l8'>
                                         <Input s={12} l={12} type='select' label='Persona Encargada'>
                                             <option> Persona Encargada 1 </option>
                                             <option> Persona Encargada 2 </option>
@@ -74,7 +94,7 @@ class BoxPage extends React.Component {
                                         
                                         </p>
                                     </div> 
-                                    <div className='col s12 m6 l6'>
+                                    <div className='col s12 m4 l4'>
                                         <Input s={12} l={12} type='text' label='Número PackingList'/>
                                         <p className='error col s12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
                                         
@@ -147,7 +167,7 @@ class BoxPage extends React.Component {
                                 {/* 
                                     Datos del Embarcador
                                 */}
-                                <div className='col s12 m6 l6'> 
+                                <div className='col s12 m6 l6 border-gray-right-1'> 
                                     <div className='col s12 l12'>
                                         <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
                                             Datos del Embarcador:
@@ -159,7 +179,7 @@ class BoxPage extends React.Component {
                                             <option> Embarcador 2 </option>
                                             <option> Embarcador 3 </option>
                                         </Input>
-                                        <div className='card col s12 m12 l12'>
+                                        <div className='card col s12 m12 l12 z-depth-3 border-gray-1'>
                                            <div className='card-content black-text'>
                                                 <ul className='row'>
                                                     <li className='col m2 l3'>
@@ -228,7 +248,7 @@ class BoxPage extends React.Component {
                                             <option> Broker/Cliente 2 </option>
                                             <option> Broker/Cliente 3 </option>
                                         </Input>
-                                        <div className='card col s12 m12 l12'>
+                                        <div className='card col s12 m12 l12 z-depth-3 border-gray-1'>
                                            <div className='card-content black-text'>
                                                 <ul className='row'>
                                                     <li className='col m2 l3'>
@@ -287,7 +307,7 @@ class BoxPage extends React.Component {
                                 {/* 
                                     Datos del consignatario
                                 */}
-                                <div className='col s12 m6 l6'> 
+                                <div className='col s12 m6 l6 border-gray-right-1'> 
                                     <div className='col s12 l12'>
                                         <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
                                             Datos del consignatario:
@@ -299,7 +319,7 @@ class BoxPage extends React.Component {
                                             <option> Consignatario 2 </option>
                                             <option> Consignatario 3 </option>
                                         </Input>
-                                        <div className='card col s12 m12 l12'>
+                                        <div className='card col s12 m12 l12 z-depth-3 border-gray-1 border-gray-1'>
                                            <div className='card-content black-text'>
                                                 <ul className='row'>
                                                     <li className='col m2 l3'>
@@ -368,7 +388,7 @@ class BoxPage extends React.Component {
                                             <option> Notificante 2 </option>
                                             <option> Notificante 3 </option>
                                         </Input>
-                                        <div className='card col s12 m12 l12'>
+                                        <div className='card col s12 m12 l12 z-depth-3 border-gray-1'>
                                            <div className='card-content black-text'>
                                                 <ul className='row'>
                                                     <li className='col m2 l3'>
@@ -432,9 +452,11 @@ class BoxPage extends React.Component {
                                 </div>
                             </Row>
                             <Row>
-                                <div className='col s12 m6 l6'> 
-                                    <div className='col s12 m12 l12'>
-                                        <label className='col input-field s12 l12'> Consignee to order: </label>
+                                <div className='col s12 m6 l6 border-gray-right-1'> 
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Consignee to order:
+                                        </h6>
                                     </div>
                                     <div className='col s6 m6 l6'>
                                         <Input s={12} l={12} label='Nave y Viaje'/>
@@ -474,8 +496,10 @@ class BoxPage extends React.Component {
                                     </div>
                                 </div>
                                 <div className='col s12 m6 l6'> 
-                                    <div className='col s12 m12 l12'>
-                                        <label className='col input-field s12 l12'> Consignee to order: </label>
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            Notify to order:
+                                        </h6>
                                     </div>
                                     <div className='col s12 l6'>
                                         <Input s={12} l={12} type='select' label='Puerto Embarque'>
@@ -572,13 +596,13 @@ class BoxPage extends React.Component {
 
                                         </p>
                                     </div> 
-                                    <div className='col s12 m6 l2'>
-                                        <label htmlFor='add-item' className='center-align'>.:  Click para agregar item  :.</label>
-                                        <Button s={12} l={12} waves='light' id='add-item' >Agregar <Icon right>send</Icon></Button>
-                                        
-                                        <p className='error col s12 m12 l12 font-style-italic letf-align red-text font-weight-bolder'> 
-
-                                        </p>
+                                    <div className='col s12 m12 l2'>
+                                        <label className='col s12 m12 l12' htmlFor='add-item'>
+                                            <p className='padding-simple-bottom center-align'>
+                                            .: Click para agregar :.
+                                            </p>
+                                        </label>
+                                        <Button className='col s12 m12 l12' waves='light' id='add-item' >Agregar <Icon right>send</Icon></Button>
                                     </div> 
                                 </div>
                             </Row>
@@ -586,7 +610,7 @@ class BoxPage extends React.Component {
                                 DESCRIPCIÓN DE LA CARGA
                             */}
                             <Row>
-                                <div className='col s12 l12'>
+                                <div className="col s12 m12 l12">
                                     <div className='col s12 l12'>
                                         <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
                                             DESCRIPCIÓN DE LA CARGA
@@ -598,7 +622,7 @@ class BoxPage extends React.Component {
                                 <div className='col s12 m12 l12'> 
                                     <div className=''>
                                         <table className='responsive-table highlight centered'>
-                                            <thead>
+                                            <thead className='z-depth-3'>
                                                 <tr>
                                                     <th>VARIEDAD</th>
                                                     <th>PESO CAJA (KG)</th>
@@ -634,9 +658,13 @@ class BoxPage extends React.Component {
                                 <div className="col s12 m12 l12">
                                     <div className='col s12 l12'>
                                         <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
-                                           PLANTA Y DIRECCIÓN DE LLENADO
+                                        PLANTA Y DIRECCIÓN DE LLENADO
                                         </h6>
                                     </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className="col s12 m12 l12">
                                     <div className='col s12 l6'>
                                         <Input s={12} l={12} type='select' label='Fundo(s)'>
                                             <option> one </option>
@@ -697,6 +725,101 @@ class BoxPage extends React.Component {
 
                                         </p>
                                     </div> 
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 l12'>
+                                        <h6 className='col s12 l12 left-align uppercase font-weight-bolder'> 
+                                            PARÁMETROS
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div className='col s12 m12 l6'> 
+                                    <div className='col s12 m12 l12'>
+                                        <div className='margin-bottom-1 '>
+                                            <p className='center-align font-weight-bolder'> Temperatura </p>
+                                        </div>
+                                        <Slider
+                                            className='switch col input-field s12 l12'
+                                            min={-10}
+                                            max={10}
+                                            labels={horizontalLabels}
+                                            value={celsius}
+                                            orientation='horizontal'
+                                            onChange={this.handleOnChange}
+                                        />
+                                        <div className='col input-field s12 m12 l12'>
+                                            <p className='center-align font-weight-bolder'>{formatCelsius(celsius)} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className='col s12 m12 l6'> 
+                                    <div className='col s12 m12 l12'>
+                                        <div className='margin-bottom-1 '>
+                                            <p className='center-align font-weight-bolder'> Estado </p>
+                                        </div>
+                                    </div>
+                                    <div className='col s12 m12 l12'>
+                                        <div className='switch col s6 m6 l6'>
+                                            <p className='left-align font-weight-bolder'>
+                                                Ventilación
+                                            </p>
+                                        </div>
+                                        <div className='switch col s6 m6 l6'>
+                                            <label className='d-flex justify-content-flex-end'>
+                                                Off 
+                                                <input type='checkbox'/>
+                                                <span className='lever'></span>
+                                                On 
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className='col s12 m12 l12'>
+                                        <div className='switch col s6 m6 l6'>
+                                            <p className='left-align font-weight-bolder'>
+                                                Humedad
+                                            </p>
+                                        </div>
+                                        <div className='switch col s6 m6 l6'>
+                                            <label className='d-flex justify-content-flex-end'>
+                                                Off
+                                                <input type='checkbox' />
+                                                <span className='lever'></span>
+                                                On
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div className='col s12 m12 l12'>
+                                        <div className='switch col s6 m6 l6'>
+                                            <p className='left-align font-weight-bolder'>
+                                                Quest
+                                            </p>
+                                        </div>
+                                        <div className='switch col s6 m6 l6'>
+                                            <label className='d-flex justify-content-flex-end'>
+                                                Off
+                                                <input type='checkbox' value='1'/>
+                                                <span className='lever'></span>
+                                                On
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className='col s12 m12 l12'>
+                                    <div className='col s12 m4 l4'>
+                                    </div>
+                                    <div className='col s12 m4 l4'>
+                                        <a className='col input-field s12 m12 l12 waves-effect waves-light btn red'>
+                                            <i className='material-icons right'>send</i>Guardar
+                                        </a>
+                                    </div>
+                                    <div className='col s12 m4 l4'>
+                                    </div>
                                 </div>
                             </Row>
                         </div>
